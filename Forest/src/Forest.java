@@ -1,35 +1,58 @@
 import java.util.*;
 
+/**
+ * The class forest allows the creation of the empty forest, allows addition of animals, printing the forest
+ * and the actions that take place in every iteration.
+ * @author Nitya Pendkar
+ *
+ */
 public class Forest {
 	
+	/**
+	 * This function generates a random integer between 0 and 14(inclusive) to generate random co-ordinates 
+	 * while adding a new animal to the forest.
+	 * @return returns the random integer value which is between 0 and 14(inclusive)
+	 */
 	public static int numberGenerator() {
 		Random r = new Random();
 		//Change the MAXIMUM to 15 before submitting!!!
-		int a =r.nextInt(3 - 0) + 0;
+		int a =r.nextInt(2 - 0) + 0;
 		return a;
 	}
 	
-	public void printForest(int c, int a , int b,char[][] forest) {
-		char symbol='.';
-		switch (c) {
-		case 1: symbol='d'; break;
-		case 2: symbol='f'; break;
-		case 3: symbol='w'; break;
-		case 4: symbol='c'; break;
-		case 5: symbol='l'; break;
-		case 6: symbol='t'; break;
-		case 7: symbol='h'; break;
-		case 8: symbol='u'; break;
-		}
-		forest[a][b]=symbol;
-		for (int i = 0; i < 15; i++) {
-			for (int j = 0; j<15; j++) {
-				System.out.print(forest[i][j]);
-			}
-			System.out.println();
-		}
-		
+	/**
+	 * Assigns a value of precedence to each animal. Animals are moved in the iteration step following an order
+	 * of alphabetical order precedence.
+	 * @param animal: it is the character indicating an animal in the forest
+	 * @return the numerical value to indicate precedence of animal in the iterate step
+	 */
+	static int precedence(char animal)
+	{
+		if (animal == 'c')
+			return 8;
+		else if (animal == 'd')
+			return 7;
+		else if (animal == 'f')
+			return 6;
+		else if (animal == 'h')
+			return 5;
+		else if (animal == 'l')
+			return 4;
+		else if (animal == 't')
+			return 3;
+		else if (animal == 'u')
+			return 2;
+		else if (animal == 'w')
+			return 1;
+		else return 0;
 	}
+	
+	/**
+	 * Prints the statement to indicate when an animal has been added at the particular location while creating the forest.
+	 * @param c number to indicate which animal has been added. Each integer used corresponds to a particular animal.
+	 * @param a X co-ordinate of the location when animal is added
+	 * @param b Y co-ordinate of the location when animal is added
+	 */
 	static void animalAdded(int c, int a , int b) {
 		String printString="";
 		switch (c) {
@@ -62,6 +85,13 @@ public class Forest {
 		}
 	}
 	
+	/**
+	 * It is a check to make sure that the location in the forest is not occupied by any other animal
+	 * @param num1 The generated x-coordinate for the animal to be added 
+	 * @param num2The generated y-coordinate for the animal to be added 
+	 * @param l The arraylist of tuples with all the co-ordinates of the animals which have already  been added to the forest.
+	 * @return
+	 */
 	public static boolean check (int num1, int num2,ArrayList <Tuple>  l) {
 		for(int i=0;i<l.size();i++) {	
 			//System.out.println(l.get(i));
@@ -73,6 +103,13 @@ public class Forest {
 		return false;
 	}
     
+	/**
+	 * prints the current forest when "print" is called by the user. Also indicates which animals have died at
+	 * which locations.
+	 * @param forest the 2D array of the current forest (with animals and empty spaces.)
+	 * @param dead The arrayList of the tuples of the locations of all the dead animals
+	 * @param deadAnimals The arrayList of all the animals which have died.
+	 */
 	public static void printCurrentForest(char [][] forest, ArrayList <Tuple> dead,ArrayList <String>  deadAnimals) {
 		//System.out.println("Reached print");
 		for (int i = 0; i < 15; i++) {
@@ -88,13 +125,23 @@ public class Forest {
 		
 	}
 	
+	/**
+	 * Iterates (moves) each animal in the forest when the user presses "enter" and also makes animals fight if they come in each other's path.
+	 * @param l  The arraylist of tuples with all the co-ordinates of the animals which have already  been added to the forest. 
+	 * @param forest the 2D array of the current forest (with animals and empty spaces.)
+	 * @param dead The arrayList of the tuples of the locations of all the dead animals
+	 * @param deadAnimals The arrayList of all the animals which have died.
+	*/
 	public static void iterate(ArrayList <Tuple>  l, char [][]forest,ArrayList <Tuple>  dead,
 			ArrayList <String>  deadAnimals) {
+		
+		
+		for (int precedence=8; precedence>0;precedence--) {
 		for(int i=0; i<l.size();i++) {
 			int x=l.get(i).getX();
 			int y=l.get(i).getY();
 			char animalLetter = forest [x][y];
-			if(animalLetter=='d') {
+			if(animalLetter=='d' && precedence==7) {
 				forest[x][y]='.';
 				Dog d = new Dog(x,y);
 				Tuple new_location = d.move(d.getTuple(),forest);
@@ -108,6 +155,7 @@ public class Forest {
 							Tuple victim_position =new Tuple(x, path);
 							Tuple attacker_initial =new Tuple(x, y);
 							Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+							//System.out.println(attacker_initial.getX() + " " + attacker_initial.getY());
 							result=d.fight(victim_position, attacker_initial, attacker_if_wins,forest,l,dead, deadAnimals);
 						}
 					}
@@ -118,7 +166,9 @@ public class Forest {
 							check_in_path=true;
 							Tuple victim_position =new Tuple(path, y);
 							Tuple attacker_initial =new Tuple(x, y);
+							
 							Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+							//System.out.println(attacker_initial.getX() + " " + attacker_initial.getY());
 							result=d.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead, deadAnimals);
 							
 						}
@@ -130,7 +180,7 @@ public class Forest {
 					forest[new_location.getX()][new_location.getY()] ='d';
 				}				
 			}
-			if(animalLetter=='f') {
+			if(animalLetter=='f' && precedence==6) {
 				forest[x][y]='.';
 				Fox f = new Fox(x,y);
 				Tuple new_location = f.move(f.getTuple(),forest);
@@ -166,9 +216,11 @@ public class Forest {
 					forest[new_location.getX()][new_location.getY()] ='f';
 				}
 			}
-			if(animalLetter=='w') {
+			if(animalLetter=='w' && precedence==1) {
 				forest[x][y]='.';
 				Wolf w = new Wolf(x,y);
+				//check
+				//System.out.println("check 1 forest 199");
 				Tuple new_location = w.move(w.getTuple(),forest);
 				l.get(i).update(new_location.getX(), new_location.getY());
 				boolean check_in_path=false;
@@ -197,12 +249,12 @@ public class Forest {
 					}
 				}
 				if(check_in_path == false) {
-					System.out.println("Wolf moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "+
-							new_location.getY() +")");
-					forest[new_location.getX()][new_location.getY()] ='d';
+					//System.out.println("Wolf moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "
+						//	+ new_location.getY() +")" + "check 229 forest");
+					forest[new_location.getX()][new_location.getY()] ='w';
 				}
 			}
-			if(animalLetter=='c') {
+			if(animalLetter=='c' && precedence==8) {
 				forest[x][y]='.';
 				Cat c = new Cat(x,y);
 				Tuple new_location = c.move(c.getTuple(),forest);
@@ -233,12 +285,12 @@ public class Forest {
 					}
 				}
 				if(check_in_path == false) {
-					System.out.println("Cat moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "+
+					System.out.println("Cat moved from (" + x +", "+ y +") to ("+ new_location.getX() +", "+
 							new_location.getY() +")");
 					forest[new_location.getX()][new_location.getY()] ='c';
 				}
 			}
-			if(animalLetter=='l') {
+			if(animalLetter=='l' && precedence==4) {
 				forest[x][y]='.';
 				Lion lion = new Lion(x,y);
 				Tuple new_location = lion.move(lion.getTuple(),forest);
@@ -274,7 +326,7 @@ public class Forest {
 					forest[new_location.getX()][new_location.getY()] ='l';
 				}
 			}
-			if(animalLetter=='t') {
+			if(animalLetter=='t' && precedence==3) {
 				forest[x][y]='.';
 				Tiger t = new Tiger(x,y);
 				Tuple new_location = t.move(t.getTuple(),forest);
@@ -310,7 +362,7 @@ public class Forest {
 					forest[new_location.getX()][new_location.getY()] ='t';
 				}
 			}
-			if(animalLetter=='h') {
+			if(animalLetter=='h' && precedence==5) {
 				forest[x][y]='.';
 				Hippo h = new Hippo(x,y);
 				Tuple new_location = h.move(h.getTuple(),forest);
@@ -346,7 +398,7 @@ public class Forest {
 					forest[new_location.getX()][new_location.getY()] ='h';
 				}
 			}
-			if(animalLetter=='u') {
+			if(animalLetter=='u' && precedence==2) {
 				forest[x][y]='.';
 				Turtle u = new Turtle(x,y);
 				Tuple new_location = u.move(u.getTuple(),forest);
@@ -377,14 +429,25 @@ public class Forest {
 					}
 				}
 				if(check_in_path == false) {
+				if(new_location.getX()==x && new_location.getY()==y) {
+					System.out.println("Turtle stayed in (" + x +", " + y +")");					
+				}
+					else{
 					System.out.println("Turtle moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "+
 							new_location.getY() +")");
-					forest[new_location.getX()][new_location.getY()] ='u';
+					
+					}
+				forest[new_location.getX()][new_location.getY()] ='u';
 				}
 			}
 		}
+	}
 		
 	}
+	/**
+	 * This is the main function where the program starts to execute.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		char[][] forest = new char[15][15];

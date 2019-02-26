@@ -1,7 +1,19 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * The Animal class is the superclass which has the Canine, Feline, Hippo and Turtle classes under it. 
+ * All animals can move and fight.
+ * @author Nitya Pendkar
+ *
+ */
 abstract public class Animal {
+	/**
+	 * This method helps to move an animal in the forest
+	 * @param c The initial location co-ordinates of the animal are passed in this Tuple
+	 * @param forest The 2D character array of the current forest
+	 * @return Returns the new co-ordinates of the location of the animal after moving
+	 */
 	abstract public Tuple move(Tuple c, char [][] forest);
 	public String fight(Tuple victim_position, Tuple attacker_initial,
 			 Tuple attacker_if_wins,char [][] forest, ArrayList <Tuple> l,ArrayList <Tuple>  dead, ArrayList <String>  deadAnimals) {
@@ -9,6 +21,7 @@ abstract public class Animal {
 		String result="wins";
 		String victim="";
 		String attacker="";
+	//System.out.println(forest[attacker_initial.getX()][attacker_initial.getY()]);
 		if (forest[victim_position.getX()][victim_position.getY()] == 'u') {
 			victim= "Turtle";
 		}
@@ -58,6 +71,7 @@ abstract public class Animal {
 		if (forest[attacker_initial.getX()][attacker_initial.getY()] == 'h') {
 			attacker= "Hippo";
 		}
+		System.out.println(attacker);
 		System.out.println(attacker +" from ("+ attacker_initial.getX() + ", " + 
 			    attacker_initial.getY() +") attacks " + victim + " at ("+  victim_position.getX() + ", " 
 				+ victim_position.getY() +") and loses");
@@ -77,6 +91,12 @@ abstract public class Animal {
 	}
 		return result;
 	}
+	/**
+	 * Generates a random integer between the maximum and minimum limits passed to it.
+	 * @param max The maximum limit of the range
+	 * @param min The minimum limit of the range
+	 * @return Returns the randomly generated integer in the given range
+	 */
 	public int coordinateGenerator(int max, int min) {
 		Random r = new Random();
 		int a =r.nextInt(max - min) + min;

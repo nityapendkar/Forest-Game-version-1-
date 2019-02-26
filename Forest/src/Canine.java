@@ -1,7 +1,15 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * The Canine class extends from the Animal class. It behaves as the superclass for the Dog, Fox and Wolf classes
+ * @author Nitya Pendkar
+ *
+ */
 public class Canine extends Animal{
+	/* (non-Javadoc)
+	 * @see Animal#move(Tuple, char[][])
+	 */
 	public Tuple move(Tuple c, char [][] forest) {
 		int initialX=c.getX();
 		int initialY=c.getY();
@@ -34,6 +42,9 @@ public class Canine extends Animal{
 		return d;
 		
 	}
+	/* (non-Javadoc)
+	 * @see Animal#fight(Tuple, Tuple, Tuple, char[][], java.util.ArrayList, java.util.ArrayList, java.util.ArrayList)
+	 */
 	public String fight(Tuple victim_position, Tuple attacker_initial, Tuple attacker_if_wins,char [][] forest, ArrayList <Tuple> l,ArrayList <Tuple>  dead, ArrayList <String>  deadAnimals) {
 		String result="";
 		if(forest[victim_position.getX()][victim_position.getY()]=='c' ||
@@ -91,6 +102,7 @@ public class Canine extends Animal{
 				System.out.println(attacker +" from ("+ attacker_initial.getX() + ", " + 
 					    attacker_initial.getY() +") attacks " + victim + " at ("+  victim_position.getX() + ", " 
 						+ victim_position.getY() +") and loses");
+			
 				System.out.println(victim + " dies at (" + victim_position.getX() + ", " + victim_position.getY() +
 						")");
 				forest[attacker_if_wins.getX()][attacker_if_wins.getY()]='.';
@@ -108,6 +120,9 @@ public class Canine extends Animal{
 			}
 		}
 		else {
+			//System.out.println("check if 8 Canine");
+			//check
+			//System.out.println(forest[attacker_initial.getX()][attacker_initial.getY()]);
 			super.fight(victim_position, attacker_initial, attacker_if_wins,
 					forest, l, dead,  deadAnimals);
 		}

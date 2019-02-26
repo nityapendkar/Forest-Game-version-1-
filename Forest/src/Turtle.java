@@ -1,12 +1,18 @@
 import java.util.ArrayList;
 import java.util.Random;
-
+/**
+ * @author Nitya Pendkar
+ * The Turtle class extends from the Animal class
+ */
 public class Turtle extends Animal{
 
 		private Tuple c = new Tuple(0,0);
 		Turtle (int x, int y) {
 			c.update(x, y);
 		}
+		/* (non-Javadoc)
+		 * @see Animal#move(Tuple, char[][])
+		 */
 		public Tuple move(Tuple c, char [][] forest) {
 			int initialX=c.getX();
 			int initialY=c.getY();
@@ -41,9 +47,16 @@ public class Turtle extends Animal{
 			
 		}
 		
+		/**
+		 * Returns the tuple
+		 * @return Returns the tuple
+		 */
 		public Tuple getTuple() {
 			return c;
 		}
+		/* (non-Javadoc)
+		 * @see Animal#fight(Tuple, Tuple, Tuple, char[][], java.util.ArrayList, java.util.ArrayList, java.util.ArrayList)
+		 */
 		public String fight ( Tuple victim_position, Tuple attacker_initial, Tuple attacker_if_wins, char[][] forest,ArrayList <Tuple> l,ArrayList <Tuple>  dead, ArrayList <String>  deadAnimals) {
 			String result="";
 		String victim="";
@@ -103,7 +116,7 @@ public class Turtle extends Animal{
 			if(a==1) {
 				System.out.println("Turtle from ("+ attacker_initial.getX() + ", " + 
 					    attacker_initial.getY() +") attacks " + victim + " at ("+  victim_position.getX() + ", " 
-						+ victim_position.getY() +") and loses");
+						+ victim_position.getY() +") and loses"+"check turtle 106");
 				System.out.println("Turtle dies at (" + victim_position.getX() + ", " + victim_position.getY() +
 						")");
 				forest[attacker_if_wins.getX()][attacker_if_wins.getY()]='.';

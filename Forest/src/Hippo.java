@@ -1,11 +1,18 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * @author Nitya Pendkar
+ * The Hippo class extends from the Animal class
+ */
 public class Hippo extends Animal{
 	private Tuple c = new Tuple(0,0);
 	Hippo (int x, int y) {
 		c.update(x, y);
 	}
+	/* (non-Javadoc)
+	 * @see Animal#move(Tuple, char[][])
+	 */
 	public Tuple move(Tuple c, char [][] forest) {
 		int initialX=c.getX();
 		int initialY=c.getY();
@@ -35,9 +42,16 @@ public class Hippo extends Animal{
 		
 	}
 	
+	/**
+	 * Returns the tuple
+	 * @return Returns the tuple
+	 */
 	public Tuple getTuple() {
 		return c;
 	}
+	/* (non-Javadoc)
+	 * @see Animal#fight(Tuple, Tuple, Tuple, char[][], java.util.ArrayList, java.util.ArrayList, java.util.ArrayList)
+	 */
 	public String fight ( Tuple victim_position, Tuple attacker_initial, Tuple attacker_if_wins, char[][] forest,ArrayList <Tuple> l,ArrayList <Tuple>  dead, ArrayList <String>  deadAnimals) {
 		String result="";
 		if (forest[victim_position.getX()][victim_position.getY()]=='h') {
@@ -83,7 +97,7 @@ public class Hippo extends Animal{
 		}
 		
 		}
-		if(forest[victim_position.getX()][victim_position.getY()]=='u' ) {
+		else if(forest[victim_position.getX()][victim_position.getY()]=='u' ) {
 			Random random = new Random();
 			int a =random.nextInt(5 - 0) + 0;
 			if(a==0) {

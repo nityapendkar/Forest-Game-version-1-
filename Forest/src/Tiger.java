@@ -1,21 +1,34 @@
 import java.util.ArrayList;
 import java.util.Random;
-
+/**
+ * The Tiger class extends from the Feline class. Its superclass is the Feline class.
+ * @author Nitya Pendkar
+ *
+ */
 public class Tiger extends Feline{
 	private Tuple c = new Tuple(0,0);
 	Tiger (int x, int y) {
 		c.update(x, y);
 	}
 	
+	/* (non-Javadoc)
+	 * @see Feline#move(Tuple, char[][])
+	 */
 	public Tuple move(Tuple d, char[][] forest) {
 		d = super.move(d, forest);
 		return d;
 
 	}
-	
+	/**
+	 * Returns the tuple
+	 * @return Returns the tuple
+	 */
 	public Tuple getTuple() {
 		return c;
 	}
+	/* (non-Javadoc)
+	 * @see Feline#fight(Tuple, Tuple, Tuple, char[][], java.util.ArrayList, java.util.ArrayList, java.util.ArrayList)
+	 */
 	public String fight ( Tuple victim_position, Tuple attacker_initial, Tuple attacker_if_wins, char[][] forest,ArrayList <Tuple> l,ArrayList <Tuple>  dead, ArrayList <String>  deadAnimals) {
 		String result="";
 		if (forest[victim_position.getX()][victim_position.getY()]=='t') {
@@ -61,13 +74,13 @@ public class Tiger extends Feline{
 		}
 		
 		}
-		if(forest[victim_position.getX()][victim_position.getY()]=='d' ||
+		else if(forest[victim_position.getX()][victim_position.getY()]=='d' ||
 				forest[victim_position.getX()][victim_position.getY()]=='f' ||
 				forest[victim_position.getX()][victim_position.getY()]=='w') {
 			super.fight(victim_position, attacker_initial, attacker_if_wins,
 					forest, l, dead,  deadAnimals);
 		}
-		if(forest[victim_position.getX()][victim_position.getY()]=='u' ) {
+		else if(forest[victim_position.getX()][victim_position.getY()]=='u' ) {
 			Random random = new Random();
 			int a =random.nextInt(5 - 0) + 0;
 			if(a==0) {
