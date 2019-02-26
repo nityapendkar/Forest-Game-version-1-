@@ -16,9 +16,16 @@ public class Dog extends Canine{
 	 * @see Canine#move(Tuple, char[][])
 	 */
 	public Tuple move(Tuple d, char[][] forest) {
+		int oldX=d.getX();
+		int oldY=d.getY();
 		d = super.move(d, forest);
+		int newY=d.getY();
+		int newX=d.getX();
+		//returns a new location(inn form of a tuple)
+		//System.out.println(newX+ " "+ newY);
+//		forest[newX][newY]='w';
+		//System.out.println("Dog moved from ("+ oldX +", "+ oldY +") to ("+ newX +", "+ newY +")");
 		return d;
-
 	}
 	/**
 	 * Returns the tuple
@@ -70,11 +77,10 @@ public class Dog extends Canine{
 					if ((l.get(start).getX()==victim_position.getX()) 
 							&& (l.get(start).getY()==victim_position.getY())) {
 						l.remove(start);
-						dead.add(new Tuple (victim_position.getX(), victim_position.getY()));
-						deadAnimals.add("Dog");
-					
 				}
 			}
+			dead.add(new Tuple (victim_position.getX(), victim_position.getY()));
+			deadAnimals.add("Dog");	
 		//}
 		
 		}
@@ -106,12 +112,11 @@ public class Dog extends Canine{
 							if ((l.get(start).getX()==victim_position.getX()) 
 									&& (l.get(start).getY()==victim_position.getY())) {
 								l.remove(start);
-								dead.add(new Tuple (victim_position.getX(), victim_position.getY()));
-								deadAnimals.add("Turtle");
 								
-							
 						}
 					}
+					dead.add(new Tuple (victim_position.getX(), victim_position.getY()));
+					deadAnimals.add("Turtle");	
 			}
 			else {
 				//System.out.println("check if 6 Dog" );
@@ -126,14 +131,15 @@ public class Dog extends Canine{
 					if ((l.get(start).getX()==victim_position.getX()) 
 							&& (l.get(start).getY()==victim_position.getY())) {
 						l.remove(start);
-						dead.add(new Tuple (victim_position.getX(), victim_position.getY()));
-						deadAnimals.add("Dog");					
+										
 				}
 			}
+				dead.add(new Tuple (victim_position.getX(), victim_position.getY()));
+				deadAnimals.add("Dog");		
 			}
 		}
 		else {
-			System.out.println("check if 7 Dog" );
+			//System.out.println("check if 7 Dog" );
 			//check
 			//System.out.println(forest[attacker_initial.getX()][attacker_initial.getY()]);
 			super.fight(victim_position, attacker_initial, attacker_if_wins,

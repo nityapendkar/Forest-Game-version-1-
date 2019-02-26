@@ -135,17 +135,20 @@ public class Forest {
 	public static void iterate(ArrayList <Tuple>  l, char [][]forest,ArrayList <Tuple>  dead,
 			ArrayList <String>  deadAnimals) {
 		
+		for (int i = 0; i < l.size(); i++) {
+			System.out.println("l: "+ l.get(i).getX() + " " + l.get(i).getY());
+		}
 		
 		for (int precedence=8; precedence>0;precedence--) {
 		for(int i=0; i<l.size();i++) {
 			int x=l.get(i).getX();
 			int y=l.get(i).getY();
 			char animalLetter = forest [x][y];
+			//System.out.println("animalLetter: " + animalLetter + " " + precedence);
 			if(animalLetter=='d' && precedence==7) {
-				forest[x][y]='.';
 				Dog d = new Dog(x,y);
 				Tuple new_location = d.move(d.getTuple(),forest);
-				l.get(i).update(new_location.getX(), new_location.getY());
+				
 				boolean check_in_path=false;
 				String result="";
 				if(x==new_location.getX()){
@@ -159,6 +162,9 @@ public class Forest {
 							result=d.fight(victim_position, attacker_initial, attacker_if_wins,forest,l,dead, deadAnimals);
 						}
 					}
+					//checking(added here)
+					//System.out.println("check forest 163 for dog :position of setting new_location chnaged");
+					//forest[new_location.getX()][new_location.getY()] = 'd';
 				}
 				if(y==new_location.getY()){
 					for (int path=(x+1);path<=new_location.getX();path++) {
@@ -173,11 +179,25 @@ public class Forest {
 							
 						}
 					}
+					//checking(added here)
+					//System.out.println("check forest 178 for dog :position of setting new_location chnaged");
+					//forest[new_location.getX()][new_location.getY()] = 'd';
 				}
+//				//checking(added here)
+//				System.out.println("check forest 178 for dog :position of setting new_location chnaged");
+				if (result.equals("wins")) {
+					forest[new_location.getX()][new_location.getY()] = 'd';
+					l.get(i).update(new_location.getX(), new_location.getY());
+					
+				}
+				forest[x][y]='.';
+				
 				if(check_in_path == false) {
+					//System.out.println("Check: extra printing?");
 					System.out.println("Dog moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "+
 							new_location.getY() +")");
 					forest[new_location.getX()][new_location.getY()] ='d';
+					l.get(i).update(new_location.getX(), new_location.getY());
 				}				
 			}
 			if(animalLetter=='f' && precedence==6) {
@@ -217,17 +237,18 @@ public class Forest {
 				}
 			}
 			if(animalLetter=='w' && precedence==1) {
-				forest[x][y]='.';
 				Wolf w = new Wolf(x,y);
 				//check
 				//System.out.println("check 1 forest 199");
 				Tuple new_location = w.move(w.getTuple(),forest);
-				l.get(i).update(new_location.getX(), new_location.getY());
+				System.out.println("old coordinate:" + x + " " + y);
+				System.out.println("new coordinate:" + new_location.getX() + " " + new_location.getY());
 				boolean check_in_path=false;
 				String result="";
 				if(x==new_location.getX()){
 					for (int path=(y+1);path<=new_location.getY();path++) {
 						if (forest[x][path] != '.') {
+							System.out.println("w1:" + forest[x][path]);
 							check_in_path=true;
 							Tuple victim_position =new Tuple(x, path);
 							Tuple attacker_initial =new Tuple(x, y);
@@ -236,9 +257,11 @@ public class Forest {
 						}
 					}
 				}
+			
 				if(y==new_location.getY()){
 					for (int path=(x+1);path<=new_location.getX();path++) {
 						if (forest[path][y] != '.') {
+							System.out.println("w2:" + forest[x][path]);
 							check_in_path=true;
 							Tuple victim_position =new Tuple(path, y);
 							Tuple attacker_initial =new Tuple(x, y);
@@ -248,10 +271,19 @@ public class Forest {
 						}
 					}
 				}
+				
+				//checking(added here)
+				if (result.equals("wins")) {
+					forest[new_location.getX()][new_location.getY()] = 'w';
+					l.get(i).update(new_location.getX(), new_location.getY());
+				}
+				forest[x][y]='.';
+				
 				if(check_in_path == false) {
-					//System.out.println("Wolf moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "
-						//	+ new_location.getY() +")" + "check 229 forest");
+					System.out.println("Wolf moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "
+						+ new_location.getY() +")");
 					forest[new_location.getX()][new_location.getY()] ='w';
+					l.get(i).update(new_location.getX(), new_location.getY());
 				}
 			}
 			if(animalLetter=='c' && precedence==8) {

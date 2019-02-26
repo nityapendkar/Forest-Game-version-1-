@@ -21,7 +21,9 @@ abstract public class Animal {
 		String result="wins";
 		String victim="";
 		String attacker="";
-	//System.out.println(forest[attacker_initial.getX()][attacker_initial.getY()]);
+		//System.out.println("Check animal 24");
+		//System.out.println("attacker from animal class:" + attacker_initial.getX() + " " + attacker_initial.getY());
+	   
 		if (forest[victim_position.getX()][victim_position.getY()] == 'u') {
 			victim= "Turtle";
 		}
@@ -71,24 +73,21 @@ abstract public class Animal {
 		if (forest[attacker_initial.getX()][attacker_initial.getY()] == 'h') {
 			attacker= "Hippo";
 		}
-		System.out.println(attacker);
+		//System.out.println(attacker);
 		System.out.println(attacker +" from ("+ attacker_initial.getX() + ", " + 
 			    attacker_initial.getY() +") attacks " + victim + " at ("+  victim_position.getX() + ", " 
 				+ victim_position.getY() +") and loses");
-		System.out.println(victim + " dies at (" + victim_position.getX() + ", " + victim_position.getY() +
+		System.out.println(attacker + " dies at (" + attacker_initial.getX() + ", " + attacker_initial.getY() +
 				")");
-		forest[attacker_if_wins.getX()][attacker_if_wins.getY()]='.';
 		result = "loses";
 		for(int start=0;start<l.size();start++) {
-			if ((l.get(start).getX()==victim_position.getX()) 
-					&& (l.get(start).getY()==victim_position.getY())) {
+			if ((l.get(start).getX()==attacker_initial.getX()) 
+					&& (l.get(start).getY()==attacker_initial.getY())) {
 				l.remove(start);
-				dead.add(new Tuple (victim_position.getX(), victim_position.getY()));
-				deadAnimals.add(attacker);
-				
-			
 		}
 	}
+		dead.add(new Tuple (attacker_initial.getX(), attacker_initial.getY()));
+		deadAnimals.add(attacker);
 		return result;
 	}
 	/**

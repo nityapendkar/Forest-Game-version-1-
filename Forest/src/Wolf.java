@@ -22,8 +22,8 @@ public class Wolf extends Canine{
 		int newX=d.getX();
 		//returns a new location(inn form of a tuple)
 		//System.out.println(newX+ " "+ newY);
-		forest[newX][newY]='w';
-		System.out.println("Wolf moved from ("+ oldX +", "+ oldY +") to ("+ newX +", "+ newY +")");
+//		forest[newX][newY]='w';
+		//System.out.println("Wolf moved from ("+ oldX +", "+ oldY +") to ("+ newX +", "+ newY +")");
 		return d;
 
 	}
@@ -39,6 +39,7 @@ public class Wolf extends Canine{
 	 */
 	public String fight ( Tuple victim_position, Tuple attacker_initial, Tuple attacker_if_wins, char[][] forest,ArrayList <Tuple> l,ArrayList <Tuple>  dead, ArrayList <String>  deadAnimals) {
 		String result="";
+		//System.out.println("check victim: " + forest[victim_position.getX()][victim_position.getY()]);
 		if (forest[victim_position.getX()][victim_position.getY()]=='w') {
 			Random r = new Random();
 		int a =r.nextInt(2 - 0) + 0;

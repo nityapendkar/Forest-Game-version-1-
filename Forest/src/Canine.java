@@ -28,7 +28,7 @@ public class Canine extends Animal{
 			}
 		}
 		//y-coordinate remains unchanged
-		else if(a==1) {
+		if(a==1) {
 			
 			newX=super.coordinateGenerator((initialX + 3) ,(initialX - 2));
 			while(newX>14 || newX<0 || newX==initialX) {
