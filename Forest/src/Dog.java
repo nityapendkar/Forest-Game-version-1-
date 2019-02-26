@@ -72,13 +72,14 @@ public class Dog extends Canine{
 			result = "loses";
 		}
 		//if(attacker_initial.getX()==attacker_if_wins.getX() || attacker_initial.getY()==attacker_if_wins.getY()) {
-		
+		/*
 				for(int start=0;start<l.size();start++) {
 					if ((l.get(start).getX()==victim_position.getX()) 
 							&& (l.get(start).getY()==victim_position.getY())) {
 						l.remove(start);
 				}
 			}
+		*/	
 			dead.add(new Tuple (victim_position.getX(), victim_position.getY()));
 			deadAnimals.add("Dog");	
 		//}

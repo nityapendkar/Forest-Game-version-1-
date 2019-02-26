@@ -135,12 +135,10 @@ public class Forest {
 	public static void iterate(ArrayList <Tuple>  l, char [][]forest,ArrayList <Tuple>  dead,
 			ArrayList <String>  deadAnimals) {
 		
-		for (int i = 0; i < l.size(); i++) {
-			System.out.println("l: "+ l.get(i).getX() + " " + l.get(i).getY());
-		}
 		
 		for (int precedence=8; precedence>0;precedence--) {
 		for(int i=0; i<l.size();i++) {
+			//System.out.println(l.size());
 			int x=l.get(i).getX();
 			int y=l.get(i).getY();
 			char animalLetter = forest [x][y];
@@ -151,6 +149,7 @@ public class Forest {
 				
 				boolean check_in_path=false;
 				String result="";
+				/*
 				if(x==new_location.getX()){
 					for (int path=(y+1);path<=new_location.getY();path++) {
 						if (forest[x][path] != '.') {
@@ -185,18 +184,44 @@ public class Forest {
 				}
 //				//checking(added here)
 //				System.out.println("check forest 178 for dog :position of setting new_location chnaged");
+
+*/
+				for (int ix=x-2; ix<=x+2; ix++) {
+					for (int iy=y-2; iy<=y+2; iy++) {
+						if ( (ix != iy) && (ix >= 0) && (ix < 15) && (iy >= 0) && (iy < 15) && (ix != x) && (iy != y) && (ix == new_location.getX() || iy == new_location.getY()) ) {
+							if (forest[ix][iy] != '.') {
+							
+								check_in_path=true;
+								Tuple victim_position =new Tuple(ix, iy);
+								Tuple attacker_initial =new Tuple(x, y);
+								Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+								//System.out.println(attacker_initial.getX() + " " + attacker_initial.getY());
+								result=d.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead, deadAnimals);
+								
+							}
+						}
+					}
+					
+				}
 				if (result.equals("wins")) {
 					forest[new_location.getX()][new_location.getY()] = 'd';
 					l.get(i).update(new_location.getX(), new_location.getY());
-					
 				}
+				else {
+					l.remove(i);
+				}
+				
 				forest[x][y]='.';
+				for (int ip = 0; ip < l.size(); ip++) {
+					System.out.println("l: "+ l.get(ip).getX() + " " + l.get(ip).getY());
+				}
 				
 				if(check_in_path == false) {
 					//System.out.println("Check: extra printing?");
 					System.out.println("Dog moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "+
 							new_location.getY() +")");
 					forest[new_location.getX()][new_location.getY()] ='d';
+					System.out.println("here");
 					l.get(i).update(new_location.getX(), new_location.getY());
 				}				
 			}
