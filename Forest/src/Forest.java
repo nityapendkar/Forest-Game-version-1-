@@ -16,7 +16,7 @@ public class Forest {
 	public static int numberGenerator() {
 		Random r = new Random();
 		//Change the MAXIMUM to 15 before submitting!!!
-		int a =r.nextInt(15 - 0) + 0;
+		int a =r.nextInt(2 - 0) + 0;
 		return a;
 	}
 	
@@ -138,39 +138,74 @@ public class Forest {
 		
 		for (int precedence=8; precedence>0;precedence--) {
 		for(int i=0; i<l.size();i++) {
+			
 			int x=l.get(i).getX();
 			int y=l.get(i).getY();
+			if(l.get(i).getX() > -1 && l.get(i).getY() > -1 ) {
 			char animalLetter = forest [x][y];
 			if(animalLetter=='d' && precedence==7) {
-				forest[x][y]='.';
+				//forest[x][y]='.';
 				Dog d = new Dog(x,y);
 				Tuple new_location = d.move(d.getTuple(),forest);
-				l.get(i).update(new_location.getX(), new_location.getY());
+				//l.get(i).update(new_location.getX(), new_location.getY());
 				boolean check_in_path=false;
+				int victim_X=0;
+				int victim_Y=0;
 				String result="";
 				if(x==new_location.getX()){
-					for (int path=(y+1);path<=new_location.getY();path++) {
-						if (forest[x][path] != '.') {
-							check_in_path=true;
-							Tuple victim_position =new Tuple(x, path);
-							Tuple attacker_initial =new Tuple(x, y);
-							Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
-							//System.out.println(attacker_initial.getX() + " " + attacker_initial.getY());
-							result=d.fight(victim_position, attacker_initial, attacker_if_wins,forest,l,dead, deadAnimals);
+					if(new_location.getY() > y) {
+						for (int path = (y+1); path <= new_location.getY(); path++ ) {
+							if(forest[x][path] != '.') {
+								check_in_path=true;
+								Tuple victim_position =new Tuple(x, path);
+						    	Tuple attacker_initial =new Tuple(x, y);
+								Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+								result=d.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead,deadAnimals);
+								victim_X= x;
+								victim_Y= path;
+							}
+						}
+					}
+					else if(new_location.getY() < y) {
+							for (int path = (y-1); path >= new_location.getY(); path-- ) {
+								if(forest[x][path] != '.') {
+									check_in_path=true;
+									Tuple victim_position =new Tuple(x, path);
+									Tuple attacker_initial =new Tuple(x, y);
+									Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+									result=d.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead, deadAnimals);
+									victim_X= x;
+									victim_Y= path;
+								}
 						}
 					}
 				}
+
 				if(y==new_location.getY()){
-					for (int path=(x+1);path<=new_location.getX();path++) {
-						if (forest[path][y] != '.') {
-							check_in_path=true;
-							Tuple victim_position =new Tuple(path, y);
-							Tuple attacker_initial =new Tuple(x, y);
-							
-							Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
-							//System.out.println(attacker_initial.getX() + " " + attacker_initial.getY());
-							result=d.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead, deadAnimals);
-							
+					if(new_location.getX() > x) {
+						for (int path = (x+1); path <= new_location.getX(); path++ ) {
+							if(forest[path][y] != '.') {
+								check_in_path=true;
+								Tuple victim_position =new Tuple(path, y);
+						    	Tuple attacker_initial =new Tuple(x, y);
+								Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+								result=d.fight(victim_position, attacker_initial, attacker_if_wins,forest,l,dead,deadAnimals);
+								victim_X= path;
+								victim_Y= y;
+							}
+						}
+					}
+					else if(new_location.getX() < x) {
+							for (int path = (x-1); path >= new_location.getX(); path-- ) {
+								if(forest[path][y] != '.') {
+									check_in_path=true;
+									Tuple victim_position =new Tuple(path, y);
+							    	Tuple attacker_initial =new Tuple(x, y);
+									Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+									result=d.fight(victim_position, attacker_initial, attacker_if_wins,forest,l,dead,deadAnimals);
+									victim_X= path;
+									victim_Y= y;
+								}
 						}
 					}
 				}
@@ -178,35 +213,81 @@ public class Forest {
 					System.out.println("Dog moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "+
 							new_location.getY() +")");
 					forest[new_location.getX()][new_location.getY()] ='d';
-				}				
+					l.get(i).update(new_location.getX(), new_location.getY());
+				}	
+				else if(check_in_path == true) {
+					if(result.equals("wins")) {
+						forest[victim_X][victim_Y]='.';
+						forest[new_location.getX()][new_location.getY()]='d';
+					
+						l.get(i).update(new_location.getX(), new_location.getY());
+					}
+				}
+				forest[x][y] = '.';
+
 			}
 			if(animalLetter=='f' && precedence==6) {
-				forest[x][y]='.';
 				Fox f = new Fox(x,y);
 				Tuple new_location = f.move(f.getTuple(),forest);
-				l.get(i).update(new_location.getX(), new_location.getY());
+				//l.get(i).update(new_location.getX(), new_location.getY());
 				boolean check_in_path=false;
+				int victim_X=0;
+				int victim_Y=0;
 				String result="";
 				if(x==new_location.getX()){
-					for (int path=(y+1);path<=new_location.getY();path++) {
-						if (forest[x][path] != '.') {
-							check_in_path=true;
-							Tuple victim_position =new Tuple(x, path);
-							Tuple attacker_initial =new Tuple(x, y);
-							Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
-							result=f.fight(victim_position, attacker_initial, attacker_if_wins,forest,l,dead, deadAnimals);
+					if(new_location.getY() > y) {
+						for (int path = (y+1); path <= new_location.getY(); path++ ) {
+							if(forest[x][path] != '.') {
+								check_in_path=true;
+								Tuple victim_position =new Tuple(x, path);
+						    	Tuple attacker_initial =new Tuple(x, y);
+								Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+								result=f.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead,deadAnimals);
+								victim_X= x;
+								victim_Y= path;
+							}
+						}
+					}
+					else if(new_location.getY() < y) {
+							for (int path = (y-1); path >= new_location.getY(); path-- ) {
+								if(forest[x][path] != '.') {
+									check_in_path=true;
+									Tuple victim_position =new Tuple(x, path);
+									Tuple attacker_initial =new Tuple(x, y);
+									Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+									result=f.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead, deadAnimals);
+									victim_X= x;
+									victim_Y= path;
+								}
 						}
 					}
 				}
+
 				if(y==new_location.getY()){
-					for (int path=(x+1);path<=new_location.getX();path++) {
-						if (forest[path][y] != '.') {
-							check_in_path=true;
-							Tuple victim_position =new Tuple(path, y);
-							Tuple attacker_initial =new Tuple(x, y);
-							Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
-							result=f.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead, deadAnimals);
-							
+					if(new_location.getX() > x) {
+						for (int path = (x+1); path <= new_location.getX(); path++ ) {
+							if(forest[path][y] != '.') {
+								check_in_path=true;
+								Tuple victim_position =new Tuple(path, y);
+						    	Tuple attacker_initial =new Tuple(x, y);
+								Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+								result=f.fight(victim_position, attacker_initial, attacker_if_wins,forest,l,dead,deadAnimals);
+								victim_X= path;
+								victim_Y= y;
+							}
+						}
+					}
+					else if(new_location.getX() < x) {
+							for (int path = (x-1); path >= new_location.getX(); path-- ) {
+								if(forest[path][y] != '.') {
+									check_in_path=true;
+									Tuple victim_position =new Tuple(path, y);
+							    	Tuple attacker_initial =new Tuple(x, y);
+									Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+									result=f.fight(victim_position, attacker_initial, attacker_if_wins,forest,l,dead,deadAnimals);
+									victim_X= path;
+									victim_Y= y;
+								}
 						}
 					}
 				}
@@ -214,153 +295,201 @@ public class Forest {
 					System.out.println("Fox moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "+
 							new_location.getY() +")");
 					forest[new_location.getX()][new_location.getY()] ='f';
+					l.get(i).update(new_location.getX(), new_location.getY());
+				}	
+				else if(check_in_path == true) {
+					if(result.equals("wins")) {
+						forest[victim_X][victim_Y]='.';
+						forest[new_location.getX()][new_location.getY()]='f';
+					
+						l.get(i).update(new_location.getX(), new_location.getY());
+					}
 				}
+				forest[x][y] = '.';
+
 			}
 			if(animalLetter=='w' && precedence==1) {
-				forest[x][y]='.';
-				Wolf w = new Wolf(x,y);
-				//check
-				//System.out.println("check 1 forest 199");
+
+				//forest[x][y]='.';
+			Wolf w = new Wolf(x,y);
 				Tuple new_location = w.move(w.getTuple(),forest);
-				l.get(i).update(new_location.getX(), new_location.getY());
+				//l.get(i).update(new_location.getX(), new_location.getY());
 				boolean check_in_path=false;
+				int victim_X=0;
+				int victim_Y=0;
 				String result="";
 				if(x==new_location.getX()){
-					for (int path=(y+1);path<=new_location.getY();path++) {
-						if (forest[x][path] != '.') {
-							check_in_path=true;
-							Tuple victim_position =new Tuple(x, path);
-							Tuple attacker_initial =new Tuple(x, y);
-							Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
-							result=w.fight(victim_position, attacker_initial, attacker_if_wins,forest,l,dead, deadAnimals);
+					if(new_location.getY() > y) {
+						for (int path = (y+1); path <= new_location.getY(); path++ ) {
+							if(forest[x][path] != '.') {
+								check_in_path=true;
+								Tuple victim_position =new Tuple(x, path);
+						    	Tuple attacker_initial =new Tuple(x, y);
+								Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+								result=w.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead,deadAnimals);
+								victim_X= x;
+								victim_Y= path;
+							}
+						}
+					}
+					else if(new_location.getY() < y) {
+							for (int path = (y-1); path >= new_location.getY(); path-- ) {
+								if(forest[x][path] != '.') {
+									check_in_path=true;
+									Tuple victim_position =new Tuple(x, path);
+									Tuple attacker_initial =new Tuple(x, y);
+									Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+									result=w.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead, deadAnimals);
+									victim_X= x;
+									victim_Y= path;
+								}
 						}
 					}
 				}
+
 				if(y==new_location.getY()){
-					for (int path=(x+1);path<=new_location.getX();path++) {
-						if (forest[path][y] != '.') {
-							check_in_path=true;
-							Tuple victim_position =new Tuple(path, y);
-							Tuple attacker_initial =new Tuple(x, y);
-							Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
-							result=w.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead, deadAnimals);
-							
+					if(new_location.getX() > x) {
+						for (int path = (x+1); path <= new_location.getX(); path++ ) {
+							if(forest[path][y] != '.') {
+								check_in_path=true;
+								Tuple victim_position =new Tuple(path, y);
+						    	Tuple attacker_initial =new Tuple(x, y);
+								Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+								result=w.fight(victim_position, attacker_initial, attacker_if_wins,forest,l,dead,deadAnimals);
+								victim_X= path;
+								victim_Y= y;
+							}
+						}
+					}
+					else if(new_location.getX() < x) {
+							for (int path = (x-1); path >= new_location.getX(); path-- ) {
+								if(forest[path][y] != '.') {
+									check_in_path=true;
+									Tuple victim_position =new Tuple(path, y);
+							    	Tuple attacker_initial =new Tuple(x, y);
+									Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+									result=w.fight(victim_position, attacker_initial, attacker_if_wins,forest,l,dead,deadAnimals);
+									victim_X= path;
+									victim_Y= y;
+								}
 						}
 					}
 				}
 				if(check_in_path == false) {
-					//System.out.println("Wolf moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "
-						//	+ new_location.getY() +")" + "check 229 forest");
+					System.out.println("Wolf moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "+
+							new_location.getY() +")");
 					forest[new_location.getX()][new_location.getY()] ='w';
+					l.get(i).update(new_location.getX(), new_location.getY());
+				}	
+				else if(check_in_path == true) {
+					if(result.equals("wins")) {
+						forest[victim_X][victim_Y]='.';
+						forest[new_location.getX()][new_location.getY()]='w';
+					
+						l.get(i).update(new_location.getX(), new_location.getY());
+					}
 				}
+				forest[x][y] = '.';
+
 			}
 			if(animalLetter=='c' && precedence==8) {
-				forest[x][y]='.';
 				Cat c = new Cat(x,y);
 				Tuple new_location = c.move(c.getTuple(),forest);
-				l.get(i).update(new_location.getX(), new_location.getY());
+				//l.get(i).update(new_location.getX(), new_location.getY());
 				boolean check_in_path=false;
+				int victim_X=0;
+				int victim_Y=0;
 				String result="";
-				if(x==new_location.getX()){
-					for (int path=(y+1);path<=new_location.getY();path++) {
-						if (forest[x][path] != '.') {
-							check_in_path=true;
-							Tuple victim_position =new Tuple(x, path);
-							Tuple attacker_initial =new Tuple(x, y);
-							Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
-							result=c.fight(victim_position, attacker_initial, attacker_if_wins,forest,l,dead, deadAnimals);
-						}
-					}
+				if(forest[new_location.getX()][new_location.getY()] != '.') {
+					check_in_path=true;
+					Tuple victim_position =new Tuple(new_location.getX(),new_location.getY());
+			    	Tuple attacker_initial =new Tuple(x, y);
+					Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+					result=c.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead,deadAnimals);
+					
 				}
-				if(y==new_location.getY()){
-					for (int path=(x+1);path<=new_location.getX();path++) {
-						if (forest[path][y] != '.') {
-							check_in_path=true;
-							Tuple victim_position =new Tuple(path, y);
-							Tuple attacker_initial =new Tuple(x, y);
-							Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
-							result=c.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead, deadAnimals);
-							
-						}
-					}
-				}
+
 				if(check_in_path == false) {
-					System.out.println("Cat moved from (" + x +", "+ y +") to ("+ new_location.getX() +", "+
+					System.out.println("Cat moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "+
 							new_location.getY() +")");
 					forest[new_location.getX()][new_location.getY()] ='c';
+					l.get(i).update(new_location.getX(), new_location.getY());
+				}	
+				else if(check_in_path == true) {
+					if(result.equals("wins")) {
+	
+						forest[new_location.getX()][new_location.getY()]='c';
+					
+						l.get(i).update(new_location.getX(), new_location.getY());
+					}
 				}
+				forest[x][y] = '.';
 			}
 			if(animalLetter=='l' && precedence==4) {
-				forest[x][y]='.';
 				Lion lion = new Lion(x,y);
 				Tuple new_location = lion.move(lion.getTuple(),forest);
-				l.get(i).update(new_location.getX(), new_location.getY());
+				//l.get(i).update(new_location.getX(), new_location.getY());
 				boolean check_in_path=false;
+				int victim_X=0;
+				int victim_Y=0;
 				String result="";
-				if(x==new_location.getX()){
-					for (int path=(y+1);path<=new_location.getY();path++) {
-						if (forest[x][path] != '.') {
-							check_in_path=true;
-							Tuple victim_position =new Tuple(x, path);
-							Tuple attacker_initial =new Tuple(x, y);
-							Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
-							result=lion.fight(victim_position, attacker_initial, attacker_if_wins,forest,l,dead, deadAnimals);
-						}
-					}
+				if(forest[new_location.getX()][new_location.getY()] != '.') {
+					check_in_path=true;
+					Tuple victim_position =new Tuple(new_location.getX(),new_location.getY());
+			    	Tuple attacker_initial =new Tuple(x, y);
+					Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+					result=lion.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead,deadAnimals);
+					
 				}
-				if(y==new_location.getY()){
-					for (int path=(x+1);path<=new_location.getX();path++) {
-						if (forest[path][y] != '.') {
-							check_in_path=true;
-							Tuple victim_position =new Tuple(path, y);
-							Tuple attacker_initial =new Tuple(x, y);
-							Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
-							result=lion.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead, deadAnimals);
-							
-						}
-					}
-				}
+
 				if(check_in_path == false) {
 					System.out.println("Lion moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "+
 							new_location.getY() +")");
 					forest[new_location.getX()][new_location.getY()] ='l';
+					l.get(i).update(new_location.getX(), new_location.getY());
+				}	
+				else if(check_in_path == true) {
+					if(result.equals("wins")) {
+	
+						forest[new_location.getX()][new_location.getY()]='l';
+					
+						l.get(i).update(new_location.getX(), new_location.getY());
+					}
 				}
+				forest[x][y] = '.';
 			}
 			if(animalLetter=='t' && precedence==3) {
-				forest[x][y]='.';
 				Tiger t = new Tiger(x,y);
 				Tuple new_location = t.move(t.getTuple(),forest);
-				l.get(i).update(new_location.getX(), new_location.getY());
+				//l.get(i).update(new_location.getX(), new_location.getY());
 				boolean check_in_path=false;
+				int victim_X=0;
+				int victim_Y=0;
 				String result="";
-				if(x==new_location.getX()){
-					for (int path=(y+1);path<=new_location.getY();path++) {
-						if (forest[x][path] != '.') {
-							check_in_path=true;
-							Tuple victim_position =new Tuple(x, path);
-							Tuple attacker_initial =new Tuple(x, y);
-							Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
-							result=t.fight(victim_position, attacker_initial, attacker_if_wins,forest,l,dead, deadAnimals);
-						}
-					}
+				if(forest[new_location.getX()][new_location.getY()] != '.') {
+					check_in_path=true;
+					Tuple victim_position =new Tuple(new_location.getX(),new_location.getY());
+			    	Tuple attacker_initial =new Tuple(x, y);
+					Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+					result=t.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead,deadAnimals);
+					
 				}
-				if(y==new_location.getY()){
-					for (int path=(x+1);path<=new_location.getX();path++) {
-						if (forest[path][y] != '.') {
-							check_in_path=true;
-							Tuple victim_position =new Tuple(path, y);
-							Tuple attacker_initial =new Tuple(x, y);
-							Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
-							result=t.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead, deadAnimals);
-							
-						}
-					}
-				}
+
 				if(check_in_path == false) {
 					System.out.println("Tiger moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "+
 							new_location.getY() +")");
 					forest[new_location.getX()][new_location.getY()] ='t';
+					l.get(i).update(new_location.getX(), new_location.getY());
+				}	
+				else if(check_in_path == true) {
+					if(result.equals("wins")) {
+	
+						forest[new_location.getX()][new_location.getY()]='t';
+					
+						l.get(i).update(new_location.getX(), new_location.getY());
+					}
 				}
+				forest[x][y] = '.';
 			}
 			if(animalLetter=='h' && precedence==5) {
 				forest[x][y]='.';
@@ -440,6 +569,7 @@ public class Forest {
 				forest[new_location.getX()][new_location.getY()] ='u';
 				}
 			}
+		}
 		}
 	}
 		

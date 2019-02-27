@@ -64,7 +64,8 @@ public class Tiger extends Feline{
 				for(int start=0;start<l.size();start++) {
 					if ((l.get(start).getX()==victim_position.getX()) 
 							&& (l.get(start).getY()==victim_position.getY())) {
-						l.remove(start);
+						l.get(start).update(-1, -1);
+						//l.remove(start);
 						dead.add(new Tuple (victim_position.getX(), victim_position.getY()));
 						deadAnimals.add("Tiger");
 						
@@ -98,7 +99,8 @@ public class Tiger extends Feline{
 						for(int start=0;start<l.size();start++) {
 							if ((l.get(start).getX()==victim_position.getX()) 
 									&& (l.get(start).getY()==victim_position.getY())) {
-								l.remove(start);
+								l.get(start).update(-1, -1);
+								//l.remove(start);
 								dead.add(new Tuple (victim_position.getX(), victim_position.getY()));
 								deadAnimals.add("Turtle");
 								
@@ -117,7 +119,8 @@ public class Tiger extends Feline{
 				for(int start=0;start<l.size();start++) {
 					if ((l.get(start).getX()==victim_position.getX()) 
 							&& (l.get(start).getY()==victim_position.getY())) {
-						l.remove(start);
+						l.get(start).update(-1, -1);
+						//l.remove(start);
 						dead.add(new Tuple (victim_position.getX(), victim_position.getY()));
 						deadAnimals.add("Tiger");
 						

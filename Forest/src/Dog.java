@@ -50,31 +50,45 @@ public class Dog extends Canine{
 			System.out.println("Dog moved from (" + attacker_initial.getX() + ", "
 			+ attacker_initial.getY() + ") to (" + attacker_if_wins.getX() + ", "
 			+ attacker_if_wins.getY() + ")" );
-			forest[victim_position.getX()][victim_position.getY()]='.';
-			forest[attacker_if_wins.getX()][attacker_if_wins.getY()]='d';
+
 			result = "wins";
+			
 		}
 		//attacker loses
 		if(a==1) {
 			//System.out.println("check if 2 Dog" );
 			System.out.println("Dog from ("+ attacker_initial.getX() + ", " + attacker_initial.getY() +") attacks Dog at ("+  victim_position.getX() + ", " 
 					+ victim_position.getY() +") and loses");
-			System.out.println("Dog dies at (" + victim_position.getX() + ", " + victim_position.getY() +
+			System.out.println("Dog dies at (" + attacker_initial.getX() + ", " + attacker_initial.getY() +
 					")");
-			forest[attacker_if_wins.getX()][attacker_if_wins.getY()]='.';
+			
 			result = "loses";
 		}
 		//if(attacker_initial.getX()==attacker_if_wins.getX() || attacker_initial.getY()==attacker_if_wins.getY()) {
-		
+		if(result.equals("wins")) {
 				for(int start=0;start<l.size();start++) {
 					if ((l.get(start).getX()==victim_position.getX()) 
 							&& (l.get(start).getY()==victim_position.getY())) {
-						l.remove(start);
+						l.get(start).update(-1, -1);
+						//l.remove(start);
 						dead.add(new Tuple (victim_position.getX(), victim_position.getY()));
 						deadAnimals.add("Dog");
 					
 				}
 			}
+		}
+		else {
+			for(int start=0;start<l.size();start++) {
+				if ((l.get(start).getX()==attacker_initial.getX()) 
+						&& (l.get(start).getY()==attacker_initial.getY())) {
+					l.get(start).update(-1, -1);
+					//l.remove(start);
+					dead.add(new Tuple (attacker_initial.getX(), attacker_initial.getY()));
+					deadAnimals.add("Dog");
+				
+			}
+		}
+		}
 		//}
 		
 		}
@@ -105,7 +119,8 @@ public class Dog extends Canine{
 						for(int start=0;start<l.size();start++) {
 							if ((l.get(start).getX()==victim_position.getX()) 
 									&& (l.get(start).getY()==victim_position.getY())) {
-								l.remove(start);
+								l.get(start).update(-1, -1);
+								//l.remove(start);
 								dead.add(new Tuple (victim_position.getX(), victim_position.getY()));
 								deadAnimals.add("Turtle");
 								
@@ -125,7 +140,8 @@ public class Dog extends Canine{
 				for(int start=0;start<l.size();start++) {
 					if ((l.get(start).getX()==victim_position.getX()) 
 							&& (l.get(start).getY()==victim_position.getY())) {
-						l.remove(start);
+						l.get(start).update(-1, -1);
+						//l.remove(start);
 						dead.add(new Tuple (victim_position.getX(), victim_position.getY()));
 						deadAnimals.add("Dog");					
 				}
@@ -133,7 +149,7 @@ public class Dog extends Canine{
 			}
 		}
 		else {
-			System.out.println("check if 7 Dog" );
+			//System.out.println("check if 7 Dog" );
 			//check
 			//System.out.println(forest[attacker_initial.getX()][attacker_initial.getY()]);
 			super.fight(victim_position, attacker_initial, attacker_if_wins,
