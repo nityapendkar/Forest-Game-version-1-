@@ -57,7 +57,8 @@ public class Turtle extends Animal{
 		/* (non-Javadoc)
 		 * @see Animal#fight(Tuple, Tuple, Tuple, char[][], java.util.ArrayList, java.util.ArrayList, java.util.ArrayList)
 		 */
-		public String fight ( Tuple victim_position, Tuple attacker_initial, Tuple attacker_if_wins, char[][] forest,ArrayList <Tuple> l,ArrayList <Tuple>  dead, ArrayList <String>  deadAnimals) {
+		public String fight ( Tuple victim_position, Tuple attacker_initial, Tuple attacker_if_wins,
+				char[][] forest,ArrayList <Tuple> l,ArrayList <Tuple>  dead, ArrayList <String>  deadAnimals) {
 			String result="";
 		String victim="";
 		if (forest[victim_position.getX()][victim_position.getY()] == 'u') {
@@ -84,62 +85,64 @@ public class Turtle extends Animal{
 		if (forest[victim_position.getX()][victim_position.getY()] == 'h') {
 			victim= "Hippo";
 		}
+				
 				Random r = new Random();
 			int a =r.nextInt(2 - 0) + 0;
 			//attacker wins
 			
 			if(a==0) {
+				//System.out.println("check if 1 Dog" );
 				System.out.println("Turtle from ("+ attacker_initial.getX() + ", " + 
-			    attacker_initial.getY() +") attacks " + victim + " at ("+  victim_position.getX() + ", " 
+			    attacker_initial.getY() +") attacks "+victim+" at ("+  victim_position.getX() + ", " 
 				+ victim_position.getY() +") and wins");
-				System.out.println(victim + " dies at (" + victim_position.getX() + ", " + victim_position.getY() +
+				System.out.println(victim+" dies at (" + victim_position.getX() + ", " + victim_position.getY() +
 				")");
-				System.out.println("Turtle moved from (" + attacker_initial.getX() + ", "
+				System.out.println(victim+" moved from (" + attacker_initial.getX() + ", "
 				+ attacker_initial.getY() + ") to (" + attacker_if_wins.getX() + ", "
 				+ attacker_if_wins.getY() + ")" );
-				forest[victim_position.getX()][victim_position.getY()]='.';
-				forest[attacker_if_wins.getX()][attacker_if_wins.getY()]='u';
+
 				result = "wins";
-				for(int start=0;start<l.size();start++) {
-					if ((l.get(start).getX()==victim_position.getX()) 
-							&& (l.get(start).getY()==victim_position.getY())) {
-						l.get(start).update(-1, -1);
-						//l.remove(start);
-						dead.add(new Tuple (victim_position.getX(), victim_position.getY()));
-						deadAnimals.add(victim);
-						
-					
-				}
-			}
 				
 			}
 			//attacker loses
 			if(a==1) {
-				System.out.println("Turtle from ("+ attacker_initial.getX() + ", " + 
-					    attacker_initial.getY() +") attacks " + victim + " at ("+  victim_position.getX() + ", " 
-						+ victim_position.getY() +") and loses"+"check turtle 106");
-				System.out.println("Turtle dies at (" + victim_position.getX() + ", " + victim_position.getY() +
+				//System.out.println("check if 2 Dog" );
+				System.out.println("Turtle from ("+ attacker_initial.getX() + ", " + attacker_initial.getY() +") attacks "+victim+" at ("+  victim_position.getX() + ", " 
+						+ victim_position.getY() +") and loses");
+				System.out.println("Turtle dies at (" + attacker_initial.getX() + ", " + attacker_initial.getY() +
 						")");
-				forest[attacker_if_wins.getX()][attacker_if_wins.getY()]='.';
+				
 				result = "loses";
+			}
+			//if(attacker_initial.getX()==attacker_if_wins.getX() || attacker_initial.getY()==attacker_if_wins.getY()) {
+			if(result.equals("wins")) {
+					for(int start=0;start<l.size();start++) {
+						if ((l.get(start).getX()==victim_position.getX()) 
+								&& (l.get(start).getY()==victim_position.getY())) {
+							l.get(start).update(-1, -1);
+							//l.remove(start);
+							dead.add(new Tuple (victim_position.getX(), victim_position.getY()));
+							deadAnimals.add(victim);
+						
+					}
+				}
+			}
+			else {
 				for(int start=0;start<l.size();start++) {
-					if ((l.get(start).getX()==victim_position.getX()) 
-							&& (l.get(start).getY()==victim_position.getY())) {
+					if ((l.get(start).getX()==attacker_initial.getX()) 
+							&& (l.get(start).getY()==attacker_initial.getY())) {
 						l.get(start).update(-1, -1);
 						//l.remove(start);
-						dead.add(new Tuple (victim_position.getX(), victim_position.getY()));
+						dead.add(new Tuple (attacker_initial.getX(), attacker_initial.getY()));
 						deadAnimals.add("Turtle");
-						
 					
 				}
 			}
 			}
+			//}
 			
-			else {
-				super.fight(victim_position, attacker_initial, attacker_if_wins,
-						forest, l, dead,  deadAnimals);
-			}
+			
 			
 			return result;
-		}
+     }
 	}

@@ -16,7 +16,7 @@ public class Forest {
 	public static int numberGenerator() {
 		Random r = new Random();
 		//Change the MAXIMUM to 15 before submitting!!!
-		int a =r.nextInt(2 - 0) + 0;
+		int a =r.nextInt(15 - 0) + 0;
 		return a;
 	}
 	
@@ -54,6 +54,7 @@ public class Forest {
 	 * @param b Y co-ordinate of the location when animal is added
 	 */
 	static void animalAdded(int c, int a , int b) {
+		//System.out.println();
 		String printString="";
 		switch (c) {
 		case 1: printString = "Added Dog at ("+a +", "+b+") "+": Dog is Canine, Canine moves in four directions, one or two steps a time.";
@@ -375,6 +376,8 @@ public class Forest {
 						}
 					}
 				}
+			//	System.out.println("forest check 378" + check_in_path);
+			//	System.out.println("forest check 379" + result);
 				if(check_in_path == false) {
 					System.out.println("Wolf moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "+
 							new_location.getY() +")");
@@ -385,7 +388,7 @@ public class Forest {
 					if(result.equals("wins")) {
 						forest[victim_X][victim_Y]='.';
 						forest[new_location.getX()][new_location.getY()]='w';
-					
+					//System.out.println("check forest 388");
 						l.get(i).update(new_location.getX(), new_location.getY());
 					}
 				}
@@ -408,6 +411,8 @@ public class Forest {
 					result=c.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead,deadAnimals);
 					
 				}
+				//System.out.println("forest check 413" + check_in_path);
+				//System.out.println("forest check 414" + result);
 
 				if(check_in_path == false) {
 					System.out.println("Cat moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "+
@@ -419,7 +424,7 @@ public class Forest {
 					if(result.equals("wins")) {
 	
 						forest[new_location.getX()][new_location.getY()]='c';
-					
+						//System.out.println("check forest 422");
 						l.get(i).update(new_location.getX(), new_location.getY());
 					}
 				}
@@ -492,82 +497,77 @@ public class Forest {
 				forest[x][y] = '.';
 			}
 			if(animalLetter=='h' && precedence==5) {
-				forest[x][y]='.';
 				Hippo h = new Hippo(x,y);
 				Tuple new_location = h.move(h.getTuple(),forest);
-				l.get(i).update(new_location.getX(), new_location.getY());
+				//l.get(i).update(new_location.getX(), new_location.getY());
 				boolean check_in_path=false;
+				int victim_X=0;
+				int victim_Y=0;
 				String result="";
-				if(x==new_location.getX()){
-					for (int path=(y+1);path<=new_location.getY();path++) {
-						if (forest[x][path] != '.') {
-							check_in_path=true;
-							Tuple victim_position =new Tuple(x, path);
-							Tuple attacker_initial =new Tuple(x, y);
-							Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
-							result=h.fight(victim_position, attacker_initial, attacker_if_wins,forest,l,dead, deadAnimals);
-						}
-					}
+				if(forest[new_location.getX()][new_location.getY()] != '.') {
+					check_in_path=true;
+					Tuple victim_position =new Tuple(new_location.getX(),new_location.getY());
+			    	Tuple attacker_initial =new Tuple(x, y);
+					Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+					result=h.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead,deadAnimals);
+					
 				}
-				if(y==new_location.getY()){
-					for (int path=(x+1);path<=new_location.getX();path++) {
-						if (forest[path][y] != '.') {
-							check_in_path=true;
-							Tuple victim_position =new Tuple(path, y);
-							Tuple attacker_initial =new Tuple(x, y);
-							Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
-							result=h.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead, deadAnimals);
-							
-						}
-					}
-				}
+
 				if(check_in_path == false) {
 					System.out.println("Hippo moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "+
 							new_location.getY() +")");
 					forest[new_location.getX()][new_location.getY()] ='h';
+					l.get(i).update(new_location.getX(), new_location.getY());
+				}	
+				else if(check_in_path == true) {
+					if(result.equals("wins")) {
+	
+						forest[new_location.getX()][new_location.getY()]='h';
+					
+						l.get(i).update(new_location.getX(), new_location.getY());
+					}
 				}
+				forest[x][y] = '.';
 			}
 			if(animalLetter=='u' && precedence==2) {
-				forest[x][y]='.';
 				Turtle u = new Turtle(x,y);
 				Tuple new_location = u.move(u.getTuple(),forest);
-				l.get(i).update(new_location.getX(), new_location.getY());
+				forest[x][y] = '.';
+				//l.get(i).update(new_location.getX(), new_location.getY());
 				boolean check_in_path=false;
+				int victim_X=0;
+				int victim_Y=0;
 				String result="";
-				if(x==new_location.getX()){
-					for (int path=(y+1);path<=new_location.getY();path++) {
-						if (forest[x][path] != '.') {
-							check_in_path=true;
-							Tuple victim_position =new Tuple(x, path);
-							Tuple attacker_initial =new Tuple(x, y);
-							Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
-							result=u.fight(victim_position, attacker_initial, attacker_if_wins,forest,l,dead, deadAnimals);
-						}
-					}
-				}
-				if(y==new_location.getY()){
-					for (int path=(x+1);path<=new_location.getX();path++) {
-						if (forest[path][y] != '.') {
-							check_in_path=true;
-							Tuple victim_position =new Tuple(path, y);
-							Tuple attacker_initial =new Tuple(x, y);
-							Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
-							result=u.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead, deadAnimals);
-							
-						}
-					}
-				}
-				if(check_in_path == false) {
-				if(new_location.getX()==x && new_location.getY()==y) {
-					System.out.println("Turtle stayed in (" + x +", " + y +")");					
-				}
-					else{
-					System.out.println("Turtle moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "+
-							new_location.getY() +")");
+				if(forest[new_location.getX()][new_location.getY()] != '.') {
+					check_in_path=true;
+					Tuple victim_position =new Tuple(new_location.getX(),new_location.getY());
+			    	Tuple attacker_initial =new Tuple(x, y);
+					Tuple attacker_if_wins =new Tuple(new_location.getX(), new_location.getY());
+					result=u.fight(victim_position, attacker_initial, attacker_if_wins,forest, l,dead,deadAnimals);
 					
-					}
-				forest[new_location.getX()][new_location.getY()] ='u';
 				}
+
+				if(check_in_path == false) {
+					if(new_location.getX()==x && new_location.getY()==y) {
+						System.out.println("Turtle stayed in (" + x +", " + y +")");					
+					}
+						else{
+						System.out.println("Turtle moved from ("+ x +", "+ y +") to ("+ new_location.getX() +", "+
+								new_location.getY() +")");
+						}
+					forest[new_location.getX()][new_location.getY()] ='u';
+
+					l.get(i).update(new_location.getX(), new_location.getY());
+				}	
+				else if(check_in_path == true) {
+					if(result.equals("wins")) {
+	
+						forest[new_location.getX()][new_location.getY()]='u';
+					
+						l.get(i).update(new_location.getX(), new_location.getY());
+					}
+				}
+				//forest[x][y] = '.';
 			}
 		}
 		}
@@ -592,18 +592,18 @@ public class Forest {
 			}
 			System.out.println();
 		}
-		
-		System.out.println("1. Dog (d)");
-		System.out.println("2. Fox (f)");
-		System.out.println("3. Wolf (w)");
-		System.out.println("4. Cat (c)");
-		System.out.println("5. Lion (l)");
-		System.out.println("6. Tiger (t)");
-		System.out.println("7. Hippo (h)");
-		System.out.println("8. Turtle (u)");
-		System.out.println("What would you like to add to the Forest?");
 		System.out.println();
-		System.out.println("Please enter your choice (1-8, or 0 to finish the animal input):");
+		System.out.println("1.	Dog (d)");
+		System.out.println("2.	Fox (f)");
+		System.out.println("3. 	Wolf (w)");
+		System.out.println("4. 	Cat (c)");
+		System.out.println("5. 	Lion (l)");
+		System.out.println("6. 	Tiger (t)");
+		System.out.println("7. 	Hippo (h)");
+		System.out.println("8. 	Turtle (u)");
+		System.out.println("What would you like to add to the Forest?");
+		
+		System.out.print("Please enter your choice (1-8, or 0 to finish the animal input):");
 		
 		Scanner in = new Scanner(System.in);
 		
@@ -613,21 +613,10 @@ public class Forest {
 		ArrayList <String>  deadAnimals =  new ArrayList <String> ();
 		char symbol='.';
 		while(c!=0) {
-		if (c>8 || c<0) {
-				System.out.println("1. Dog (d)");
-				System.out.println("2. Fox (f)");
-				System.out.println("3. Wolf (w)");
-				System.out.println("4. Cat (c)");
-				System.out.println("5. Lion (l)");
-				System.out.println("6. Tiger (t)");
-				System.out.println("7. Hippo (h)");
-				System.out.println("8. Turtle (u)");
-				System.out.println("What would you like to add to the Forest?");
-				System.out.println();
-				System.out.println("Please enter your choice (1-8, or 0 to finish the animal input):");
-				c = in.nextInt();
-				continue;
-			}
+		//if (c>8 || c<0) {
+				//c = in.nextInt();
+				//continue;
+			//}
 			int a = numberGenerator();
 			int b = numberGenerator();
 			//System.out.println(a + " " + b);
@@ -661,8 +650,32 @@ public class Forest {
 				System.out.println();
 			}
 			
+//			for (int i = 0; i < 15; i++) {
+//				for (int j = 0; j<15; j++) {
+//					System.out.print(forest[i][j]);
+//				}
+//				System.out.println();
+//			}
+			System.out.println();
+			System.out.println("1.	Dog (d)");
+			System.out.println("2.	Fox (f)");
+			System.out.println("3. 	Wolf (w)");
+			System.out.println("4. 	Cat (c)");
+			System.out.println("5. 	Lion (l)");
+			System.out.println("6. 	Tiger (t)");
+			System.out.println("7. 	Hippo (h)");
+			System.out.println("8. 	Turtle (u)");
+			System.out.println("What would you like to add to the Forest?");
+			System.out.print("Please enter your choice (1-8, or 0 to finish the animal input):");
 			c = in.nextInt();
 		}
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j<15; j++) {
+				System.out.print(forest[i][j]);
+			}
+			System.out.println();
+		}
+		System.out.println();
 		System.out.println("Press enter to iterate, type 'print' to print the Forest or 'exit' to quit:");
 		String s=in.nextLine(); 
 		s = "initial";
