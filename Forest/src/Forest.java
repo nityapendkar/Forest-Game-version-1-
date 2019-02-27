@@ -16,7 +16,7 @@ public class Forest {
 	public static int numberGenerator() {
 		Random r = new Random();
 		//Change the MAXIMUM to 15 before submitting!!!
-		int a =r.nextInt(2 - 0) + 0;
+		int a =r.nextInt(15 - 0) + 0;
 		return a;
 	}
 	
