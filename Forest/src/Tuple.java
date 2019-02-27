@@ -6,6 +6,7 @@
 public class Tuple { 
 	private int x = 0;
 	private int y = 0;
+	private String z="";
     /**
      * A constructor for creating a tuple
      * @param x sets the x-coordinate
@@ -15,12 +16,22 @@ public class Tuple {
     	this.x = x;
     	this.y = y;
     }
+    /**
+     * A constructor for creating a tuple
+     * @param x sets the x-coordinate
+     * @param y sets the y-coordinate
+     */
+    Tuple(int x, int y,String z){
+    	this.x = x;
+    	this.y = y;
+    	this.z = z;
+    }
     
     /**
      * prints out the tuple
      */
     public void printTuple() {
-    	System.out.println(x + "" + y);
+    	System.out.println(x + " " + y + " " + z);
     }
     
     /**
@@ -47,5 +58,8 @@ public class Tuple {
      */
     public int getY(){
     	return y;
+    }
+    public String getZ(){
+    	return z;
     }
 }

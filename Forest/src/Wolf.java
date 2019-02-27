@@ -37,14 +37,16 @@ public class Wolf extends Canine{
 	/* (non-Javadoc)
 	 * @see Canine#fight(Tuple, Tuple, Tuple, char[][], java.util.ArrayList, java.util.ArrayList, java.util.ArrayList)
 	 */
-	public String fight ( Tuple victim_position, Tuple attacker_initial, Tuple attacker_if_wins, char[][] forest,ArrayList <Tuple> l,ArrayList <Tuple>  dead, ArrayList <String>  deadAnimals) {
+	public String fight ( Tuple victim_position, Tuple attacker_initial, Tuple attacker_if_wins, char[][] forest,ArrayList <Tuple>  deadAnimals) {
 		String result="";
 		if (forest[victim_position.getX()][victim_position.getY()]=='w') {
+			//System.out.println("check if 0 Dog" );
 			Random r = new Random();
 		int a =r.nextInt(2 - 0) + 0;
 		//attacker wins
 		
 		if(a==0) {
+			//System.out.println("check if 1 Dog" );
 			System.out.println("Wolf from ("+ attacker_initial.getX() + ", " + 
 		    attacker_initial.getY() +") attacks Wolf at ("+  victim_position.getX() + ", " 
 			+ victim_position.getY() +") and wins");
@@ -53,35 +55,22 @@ public class Wolf extends Canine{
 			System.out.println("Wolf moved from (" + attacker_initial.getX() + ", "
 			+ attacker_initial.getY() + ") to (" + attacker_if_wins.getX() + ", "
 			+ attacker_if_wins.getY() + ")" );
-			forest[victim_position.getX()][victim_position.getY()]='.';
-			forest[attacker_if_wins.getX()][attacker_if_wins.getY()]='w';
 			result = "wins";
+			deadAnimals.add(new Tuple (victim_position.getX(), victim_position.getY(), "Wolf"));
 		}
 		//attacker loses
 		if(a==1) {
-			System.out.println("Wolf from ("+ attacker_initial.getX() + ", " + 
-				    attacker_initial.getY() +") attacks Wolf at ("+  victim_position.getX() + ", " 
+			//System.out.println("check if 2 Dog" );
+			System.out.println("Wolf from ("+ attacker_initial.getX() + ", " + attacker_initial.getY() +") attacks Dog at ("+  victim_position.getX() + ", " 
 					+ victim_position.getY() +") and loses");
-			System.out.println("Wolf dies at (" + victim_position.getX() + ", " + victim_position.getY() +
+			System.out.println("Wolf dies at (" + attacker_initial.getX() + ", " + attacker_initial.getY() +
 					")");
 			forest[attacker_if_wins.getX()][attacker_if_wins.getY()]='.';
 			result = "loses";
+			deadAnimals.add(new Tuple (victim_position.getX(), victim_position.getY(), "Wolf"));
 		}
-		if(attacker_initial.getX()==attacker_if_wins.getX() || attacker_initial.getY()==attacker_if_wins.getY()) {
-		
-				for(int start=0;start<l.size();start++) {
-					if ((l.get(start).getX()==victim_position.getX()) 
-							&& (l.get(start).getY()==victim_position.getY())) {
-						l.remove(start);
-						dead.add(new Tuple (victim_position.getX(), victim_position.getY()));
-						deadAnimals.add("Wolf");
-						
-					
-				}
-			}
-		}
-		
-		}
+	
+		}/*
 		else if(forest[victim_position.getX()][victim_position.getY()]=='c' ||
 				forest[victim_position.getX()][victim_position.getY()]=='t' ||
 				forest[victim_position.getX()][victim_position.getY()]=='l') {
@@ -133,10 +122,10 @@ public class Wolf extends Canine{
 				}
 			}
 			}
-		}
+		} */
 		else {
 			super.fight(victim_position, attacker_initial, attacker_if_wins,
-					forest, l, dead,  deadAnimals);
+					forest, deadAnimals);
 		}
 		return result;
 	}

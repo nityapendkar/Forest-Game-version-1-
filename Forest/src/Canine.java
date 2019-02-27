@@ -45,9 +45,9 @@ public class Canine extends Animal{
 	/* (non-Javadoc)
 	 * @see Animal#fight(Tuple, Tuple, Tuple, char[][], java.util.ArrayList, java.util.ArrayList, java.util.ArrayList)
 	 */
-	public String fight(Tuple victim_position, Tuple attacker_initial, Tuple attacker_if_wins,char [][] forest, ArrayList <Tuple> l,ArrayList <Tuple>  dead, ArrayList <String>  deadAnimals) {
+	public String fight(Tuple victim_position, Tuple attacker_initial, Tuple attacker_if_wins,char [][] forest,ArrayList <Tuple>  deadAnimals) {
 		String result="";
-		if(forest[victim_position.getX()][victim_position.getY()]=='c' ||
+		/*if(forest[victim_position.getX()][victim_position.getY()]=='c' ||
 				forest[victim_position.getX()][victim_position.getY()]=='l' ||
 				forest[victim_position.getX()][victim_position.getY()]=='t') {
 			String victim="";
@@ -119,13 +119,13 @@ public class Canine extends Animal{
 			}
 			}
 		}
-		else {
+		else {*/
 			//System.out.println("check if 8 Canine");
 			//check
 			//System.out.println(forest[attacker_initial.getX()][attacker_initial.getY()]);
 			super.fight(victim_position, attacker_initial, attacker_if_wins,
-					forest, l, dead,  deadAnimals);
-		}
+					forest,deadAnimals);
+	//	}
 		
 		return "wins";
 	}
