@@ -115,7 +115,7 @@ public class Feline extends Animal{
 			if (forest[attacker_initial.getX()][attacker_initial.getY()] == 't') {
 				attacker= "Tiger";
 			}
-			System.out.println("feline checl 118");
+			//System.out.println("feline checl 118");
 			System.out.println(attacker +" from ("+ attacker_initial.getX() + ", " + 
 			attacker_initial.getY() +") attacks " + victim + " at ("+  victim_position.getX() + ", " 
 			+ victim_position.getY() +") and wins");

@@ -119,11 +119,12 @@ public class Forest {
 			}
 			System.out.println();
 		}
+		System.out.println();
 		//System.out.println(deadAnimals.get(0) + " died at location (" + dead.get(0).getX() + ", " + dead.get(0).getY() + ")" );
 		for(int j=0;j<dead.size();j++) {
 			System.out.println(deadAnimals.get(j) + " died at location (" + dead.get(j).getX() + ", " + dead.get(j).getY() + ")" );
 		}
-		
+		System.out.println();
 	}
 	
 	/**
@@ -572,6 +573,13 @@ public class Forest {
 		}
 		}
 	}
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j<15; j++) {
+				System.out.print(forest[i][j]);
+			}
+			System.out.println();
+		}
+		System.out.println();
 		
 	}
 	/**
@@ -676,7 +684,7 @@ public class Forest {
 			System.out.println();
 		}
 		System.out.println();
-		System.out.println("Press enter to iterate, type 'print' to print the Forest or 'exit' to quit:");
+		//System.out.println("Press enter to iterate, type 'print' to print the Forest or 'exit' to quit:");
 		String s=in.nextLine(); 
 		s = "initial";
 		while(!s.equals("exit")) {
@@ -686,6 +694,8 @@ public class Forest {
 		else if (s.isEmpty()){
 			iterate(l, forest,dead, deadAnimals);
 		}
+		System.out.print("Press enter to iterate, type 'print' to print the Forest or 'exit' to quit:");
+		
 		s = in.nextLine();
 	}
 		in.close();
